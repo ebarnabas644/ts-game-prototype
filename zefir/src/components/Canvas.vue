@@ -1,34 +1,40 @@
 <script setup lang="ts">
 import Modal from './Modal.vue';
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { initGameLoop } from '../core/gameLoop'
+import { setPIXI } from '@/core/gameRenderer';
+import * as PIXI from 'pixi.js'
+import { io, Socket } from 'socket.io-client'
 
-let canvas: HTMLCanvasElement
+const pixiContainer = ref<HTMLElement | null>(null)
+let app: PIXI.Application | null = null
 onMounted(() => {
-  canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
   window.addEventListener("resize", resizeCanvas)
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
-  const context = canvas.getContext("2d")
-  if (context) {
-  // Draw on the canvas
+  pixiContainer.value?.focus()
+  app = new PIXI.Application({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    view: pixiContainer.value!.appendChild(document.createElement('canvas')),
+    backgroundColor: 0x5c812f
+  });
+  globalThis.__PIXI_APP__ = app //for debugging pixi app with browser extension
+  setPIXI(app)
   initGameLoop()
 }
-})
+)
 
 onUnmounted(() => {
   window.removeEventListener("resize", resizeCanvas)
 })
 
 function resizeCanvas(event: any){
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
+  app?.renderer.resize(window.innerWidth, window.innerHeight)
 }
 
 </script>
 
 <template>
-  <canvas id="myCanvas" class="h-full w-full"></canvas>
+  <div ref="pixiContainer"></div>
   <modal></modal>
   <modal></modal>
 </template>
