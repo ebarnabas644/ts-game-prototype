@@ -13,7 +13,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "pinia": "^2.1.3",
+    "pixi.js": "^7.2.4",
+    "socket.io": "^4.7.1",
+    "socket.io-client": "^4.7.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"
   },
@@ -22,6 +26,7 @@
     "@tsconfig/node18": "^2.0.1",
     "@types/jsdom": "^21.1.1",
     "@types/node": "^18.16.17",
+    "@types/socket.io": "^3.0.2",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/eslint-config-prettier": "^7.1.0",
     "@vue/eslint-config-typescript": "^11.0.3",
