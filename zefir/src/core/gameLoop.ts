@@ -1,23 +1,17 @@
 import { renderGame } from "./gameRenderer"
+import { initConnection } from "./gameNetwork"
 
-let ctx: CanvasRenderingContext2D
-let canvas: HTMLCanvasElement
 
 export function initGameLoop(){
-    canvas = document.getElementById("myCanvas") as HTMLCanvasElement
-    let ctxFound = canvas.getContext("2d")
-    if(ctxFound){
-        ctx = ctxFound
-        gameLoop(0)
-    }
+    renderGame()
+    initConnection()
 }
 let lastTimestamp = 0;
 
 function gameLoop(timestamp: any){
     const deltaTime = (timestamp - lastTimestamp) / 1000;
-    console.log(deltaTime)
+    console.debug("Frametime: "+deltaTime)
     lastTimestamp = timestamp;
 
-    renderGame(ctx, canvas)
     requestAnimationFrame(gameLoop)
 }
