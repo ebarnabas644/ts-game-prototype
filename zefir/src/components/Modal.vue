@@ -1,53 +1,73 @@
+<script setup lang="ts">
+import { pushScopeId, reactive, ref } from 'vue';
+import { sendMessage, getConnectionId } from '@/core/gameNetwork';
+
+let dragging = ref(false)
+let modalTop = ref(0)
+let modalLeft = ref(0)
+let mouseX = 0
+let mouseY = 0
+let initialModalTop = 0
+let initialModalLeft = 0
+const chatInput = ref("")
+const chat: string[] = reactive([])
+
+function startDrag(event: any) {
+  dragging.value = true;
+  mouseX = event.clientX;
+  mouseY = event.clientY;
+  initialModalTop = modalTop.value;
+  initialModalLeft = modalLeft.value;
+  window.addEventListener('mousemove', drag);
+  window.addEventListener('mouseup', stopDrag);
+}
+
+function stopDrag() {
+  dragging.value = false;
+  window.removeEventListener('mousemove', drag);
+  window.removeEventListener('mouseup', stopDrag);
+}
+
+function drag(event: any) {
+  if (dragging) {
+    const deltaX = event.clientX - mouseX;
+    const deltaY = event.clientY - mouseY;
+    modalTop.value = initialModalTop + deltaY;
+    modalLeft.value = initialModalLeft + deltaX;
+  }
+}
+
+function sendChat(message: string){
+  console.log(message)
+  sendMessage('message', message)
+  chat.push(getConnectionId()+ ": "+message)
+}
+
+document.addEventListener('chatMessage', (event: Event) => {
+  const customEvent = event as CustomEvent
+  const data: any = customEvent.detail
+
+  chat.push(data)
+})
+
+</script>
+
 <template>
-    <div class="modal-container" :style="{ top: modalTop + 'px', left: modalLeft + 'px' }" @mousedown="startDrag">
-      <div class="modal-header" @mouseup="stopDrag">
+    <div class="modal-container" :style="{ top: modalTop + 'px', left: modalLeft + 'px' }">
+      <div class="modal-header" @mouseup="stopDrag" @mousedown="startDrag">
         <h2>My Modal</h2>
       </div>
       <div class="modal-content">
-        <!-- Modal content goes here -->
+        <div v-for="msg in chat">
+          <p>
+            {{ msg }}
+          </p>
+        </div>
+        <input type="text" v-model="chatInput">
+        <button @click="sendChat(chatInput)">Send</button>
       </div>
     </div>
   </template>
-  
-  <script lang="ts">
-  export default {
-    data() {
-      return {
-        dragging: false,
-        modalTop: 0,
-        modalLeft: 0,
-        mouseX: 0,
-        mouseY: 0,
-        initialModalTop: 0,
-        initialModalLeft: 0,
-      };
-    },
-    methods: {
-      startDrag(event: any) {
-        this.dragging = true;
-        this.mouseX = event.clientX;
-        this.mouseY = event.clientY;
-        this.initialModalTop = this.modalTop;
-        this.initialModalLeft = this.modalLeft;
-        window.addEventListener('mousemove', this.drag);
-        window.addEventListener('mouseup', this.stopDrag);
-      },
-      stopDrag() {
-        this.dragging = false;
-        window.removeEventListener('mousemove', this.drag);
-        window.removeEventListener('mouseup', this.stopDrag);
-      },
-      drag(event: any) {
-        if (this.dragging) {
-          const deltaX = event.clientX - this.mouseX;
-          const deltaY = event.clientY - this.mouseY;
-          this.modalTop = this.initialModalTop + deltaY;
-          this.modalLeft = this.initialModalLeft + deltaX;
-        }
-      },
-    },
-  };
-  </script>
   
   <style scoped>
   .modal-container {
@@ -61,9 +81,11 @@
     cursor: move;
     padding: 5px;
     background-color: #ccc;
+    color: black;
   }
   
   .modal-content {
     padding: 10px;
+    color: black;
   }
   </style>
