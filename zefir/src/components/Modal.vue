@@ -29,12 +29,10 @@ function stopDrag() {
 }
 
 function drag(event: any) {
-  if (dragging) {
-    const deltaX = event.clientX - mouseX;
+  const deltaX = event.clientX - mouseX;
     const deltaY = event.clientY - mouseY;
     modalTop.value = initialModalTop + deltaY;
     modalLeft.value = initialModalLeft + deltaX;
-  }
 }
 
 function sendChat(message: string){
