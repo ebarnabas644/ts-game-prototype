@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import Modal from './Modal.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
-import { initGameLoop } from '../core/gameLoop'
-import { setPIXI } from '@/core/gameRenderer';
+import { initGame } from '@/core/gameMain';
 import * as PIXI from 'pixi.js'
 import { io, Socket } from 'socket.io-client'
 
@@ -18,8 +17,7 @@ onMounted(() => {
     backgroundColor: 0x5c812f
   });
   globalThis.__PIXI_APP__ = app //for debugging pixi app with browser extension
-  setPIXI(app)
-  initGameLoop()
+  initGame(app)
 }
 )
 
