@@ -12,13 +12,19 @@ import { store } from "./gameState";
 
 export let networkSystemComponent: NetworkSystemComponent
 let rendererSystemComponent: RendererSystemComponent
+export let rendererSystemComponent: RendererSystemComponent
 
-export function initGame(pixiApp: PIXI.Application){
+export function initGame(){
     networkSystemComponent = new NetworkSystemComponent()
-    rendererSystemComponent = new RendererSystemComponent(pixiApp)
     networkSystemComponent.initConnection()
+    emitCustomEvent('engineReady', '')
+}
+
+export function setRenderer(pixiApp: PIXI.Application){
+    rendererSystemComponent = new RendererSystemComponent(pixiApp)
+    initTestPlayers()
     rendererSystemComponent.Start()
-}    rendererSystemComponent.pixiApp.ticker.add((delta) => {
+    rendererSystemComponent.pixiApp.ticker.add((delta) => {
       for (const key in store.players){
         const player = store.players[key]
         player.updateComponents(delta)
