@@ -11,6 +11,7 @@ let initialModalTop = 0
 let initialModalLeft = 0
 const chatInput = ref("")
 const chat: string[] = reactive([])
+const playerStat = usePlayerStatStore()
 
 function startDrag(event: any) {
   dragging.value = true;
@@ -51,9 +52,9 @@ document.addEventListener('chatMessage', (event: Event) => {
 </script>
 
 <template>
-    <div class="modal-container" :style="{ top: modalTop + 'px', left: modalLeft + 'px' }">
+    <div class="modal-container" v-if="!playerStat.isLoading" :style="{ top: modalTop + 'px', left: modalLeft + 'px' }">
       <div class="modal-header" @mouseup="stopDrag" @mousedown="startDrag">
-        <h2>My Modal</h2>
+        <h2>{{ playerStat.players['player'].components.health.health }}</h2>
       </div>
       <div class="modal-content">
         <div v-for="msg in chat">
