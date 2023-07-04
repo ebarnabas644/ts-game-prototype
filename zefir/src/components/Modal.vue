@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { pushScopeId, reactive, ref } from 'vue';
-import { sendMessage, getConnectionId } from '@/core/gameNetwork';
+import { onMounted, pushScopeId, reactive, ref } from 'vue';
+import { networkSystemComponent } from '@/core/gameMain';
+import { usePlayerStatStore } from '@/stores/entity';
+import type { HealthComponent } from '@/core/entity/Components/healthComponent';
+import { Entity } from '@/core/entity/entity';
 
 let dragging = ref(false)
 let modalTop = ref(0)
@@ -38,8 +41,8 @@ function drag(event: any) {
 
 function sendChat(message: string){
   console.log(message)
-  sendMessage('message', message)
-  chat.push(getConnectionId()+ ": "+message)
+  networkSystemComponent.sendMessage('message', message)
+  chat.push(networkSystemComponent.getConnectionId()+ ": "+message)
 }
 
 document.addEventListener('chatMessage', (event: Event) => {
