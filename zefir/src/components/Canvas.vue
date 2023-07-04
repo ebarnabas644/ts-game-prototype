@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Modal from './Modal.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
-import { initGame } from '@/core/gameMain';
+import { initGame, setRenderer } from '@/core/gameMain';
 import * as PIXI from 'pixi.js'
 import { io, Socket } from 'socket.io-client'
 
@@ -17,7 +17,7 @@ onMounted(() => {
     backgroundColor: 0x5c812f
   });
   globalThis.__PIXI_APP__ = app //for debugging pixi app with browser extension
-  initGame(app)
+  setRenderer(app)
 }
 )
 
@@ -33,8 +33,7 @@ function resizeCanvas(event: any){
 
 <template>
   <div ref="pixiContainer"></div>
-  <modal></modal>
-  <modal></modal>
+  <Modal></Modal>
 </template>
 
 <style scoped>
