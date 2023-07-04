@@ -1,14 +1,12 @@
 import * as PIXI from 'pixi.js'
 import { type Player } from './models/player'
-import { Entity, player } from './entity/entity'
+import { Entity } from './entity/entity'
 
 export class RendererSystemComponent
 {
-  private pixiApp: PIXI.Application
-  private player: any;
+  public pixiApp: PIXI.Application
   constructor(pixi: PIXI.Application){
     this.pixiApp = pixi
-    this.player = player
   }
 
   public Start(){
