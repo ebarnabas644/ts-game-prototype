@@ -11,7 +11,6 @@ import { emitCustomEvent } from './utilities/customEventEmitter'
 import { store } from "./gameState";
 
 export let networkSystemComponent: NetworkSystemComponent
-let rendererSystemComponent: RendererSystemComponent
 export let rendererSystemComponent: RendererSystemComponent
 
 export function initGame(){
