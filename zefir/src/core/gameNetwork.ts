@@ -6,12 +6,18 @@ export class NetworkSystemComponent{
 
   constructor() {
     this.socket = io('http://localhost:3000')
+    document.addEventListener('keydown', (event) => {
+      if(event.key == "ArrowLeft"){
+        this.socket.emit('leftMove')
+      }
+    })
   }
   
   public initConnection(){
       this.socket.on('connect', () => {
         console.log('Connected to the server');
         this.socket.emit('newPlayer')
+        this.registerPlayerCommandEvents()
     });
       this.socket.on('response', (message: string) => {
         console.log('Received response: '+ message)
@@ -31,4 +37,16 @@ export class NetworkSystemComponent{
   public sendMessage(event: string, message: string){
     this.socket.emit(event, message)
   }
+
+  private registerPlayerCommandEvents(){
+    document.addEventListener('playerInput', (event: Event) => {
+      console.log(event.detail)
+      const commands: string[] = []
+      event.detail.forEach(command => {
+        commands.push(command)
+      });
+      this.socket.emit('playerCommand', commands)
+    })
+  }
+
 }
