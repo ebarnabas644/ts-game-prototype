@@ -46,7 +46,6 @@ export class PlayerControllerComponent extends Component implements IScript{
             //player.addComponent('position'+counter, new PositionComponent(100,50))
           }
         }
-        console.log(event.key)
       })
     }
   
