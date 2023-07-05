@@ -6,19 +6,23 @@ import { HealthComponent } from "./entity/Components/healthComponent";
 import { PlayerControllerComponent } from "./entity/Components/playerControllerComponent";
 import { PositionComponent } from "./entity/Components/positionComponent";
 import { SpriteComponent } from "./entity/Components/spriteComponent";
-import type { IScript } from "./entity/Interfaces/IScript";
 import { emitCustomEvent } from './utilities/customEventEmitter'
 import { store } from "./gameState";
+import { InputSystemComponent } from "./gameInput";
 
 export let networkSystemComponent: NetworkSystemComponent
 export let rendererSystemComponent: RendererSystemComponent
+let inputSystemComponent: InputSystemComponent
 
 export function initGame(){
+    inputSystemComponent = new InputSystemComponent()
     networkSystemComponent = new NetworkSystemComponent()
     networkSystemComponent.initConnection()
     emitCustomEvent('engineReady', '')
     document.addEventListener('stateReceived', (event: any) => {
       store.entities = event.detail
+      rendererSystemComponent.update(store.entities)
+      console.log(store.entities)
     })
 }
 
@@ -26,12 +30,13 @@ export function setRenderer(pixiApp: PIXI.Application){
     rendererSystemComponent = new RendererSystemComponent(pixiApp)
     initTestPlayers()
     rendererSystemComponent.Start()
+    /*
     rendererSystemComponent.pixiApp.ticker.add((delta) => {
       for (const key in store.players){
         const player = store.players[key]
         player.updateComponents(delta)
       }
-    })
+    })*/
 }
 
 function initTestPlayers(){
@@ -40,7 +45,7 @@ function initTestPlayers(){
   player.addComponent('position', new PositionComponent(100,50))
   player.addComponent('health', new HealthComponent(50))
   player.addComponent('playerController', new PlayerControllerComponent())
-  player.addComponent('sprite', new SpriteComponent('./src/core/sprites/player.png'))
+  //player.addComponent('sprite', new SpriteComponent('./src/core/sprites/player.png'))
   const component = player.getComponent('sprite') as SpriteComponent
   component.init()
   const spriteComp = player.getComponent('sprite') as SpriteComponent
