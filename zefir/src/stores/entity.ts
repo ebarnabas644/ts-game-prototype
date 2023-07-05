@@ -4,6 +4,7 @@ import { Entity } from '@/core/entity/entity'
 
 export const usePlayerStatStore = defineStore('playerStat', () => {
   const isLoading = ref(true)
+  const entities = ref<EntityDTODictionary>()
   const players = ref<{[key: string]: Entity }>({})
-  return { players, isLoading }
+  return { players, entities, isLoading }
 })
