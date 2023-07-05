@@ -57,7 +57,7 @@ document.addEventListener('chatMessage', (event: Event) => {
 <template>
     <div class="modal-container" v-if="!playerStat.isLoading" :style="{ top: modalTop + 'px', left: modalLeft + 'px' }">
       <div class="modal-header" @mouseup="stopDrag" @mousedown="startDrag">
-        <h2>{{ playerStat.players['player'].components.health.health }}</h2>
+        <h2>{{ playerStat?.entities['players'][0].health }}</h2>
       </div>
       <div class="modal-content">
         <div v-for="msg in chat">
