@@ -1,4 +1,5 @@
 import { io, Socket } from 'socket.io-client'
+import { emitCustomEvent } from './utilities/customEventEmitter';
 
 export class NetworkSystemComponent{
   private socket: Socket;
@@ -10,12 +11,16 @@ export class NetworkSystemComponent{
   public initConnection(){
       this.socket.on('connect', () => {
         console.log('Connected to the server');
+        this.socket.emit('newPlayer')
     });
       this.socket.on('response', (message: string) => {
         console.log('Received response: '+ message)
         const event = new CustomEvent('chatMessage', {detail: message})
   
         document.dispatchEvent(event)
+      })
+      this.socket.on('state', (entites: EntityDTODictionary) => {
+        emitCustomEvent('stateReceived', entites)
       })
   }
   

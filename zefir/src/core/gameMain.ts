@@ -17,6 +17,9 @@ export function initGame(){
     networkSystemComponent = new NetworkSystemComponent()
     networkSystemComponent.initConnection()
     emitCustomEvent('engineReady', '')
+    document.addEventListener('stateReceived', (event: any) => {
+      store.entities = event.detail
+    })
 }
 
 export function setRenderer(pixiApp: PIXI.Application){
