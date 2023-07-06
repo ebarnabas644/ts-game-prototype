@@ -9,9 +9,11 @@ import { SpriteComponent } from "./entity/Components/spriteComponent";
 import { emitCustomEvent } from './utilities/customEventEmitter'
 import { store } from "./gameState";
 import { InputSystemComponent } from "./gameInput";
+import { GameCamera } from "./gameCamera"
 
 export let networkSystemComponent: NetworkSystemComponent
 export let rendererSystemComponent: RendererSystemComponent
+let gameCamera: GameCamera
 let inputSystemComponent: InputSystemComponent
 
 export function initGame(){
@@ -27,7 +29,8 @@ export function initGame(){
 }
 
 export function setRenderer(pixiApp: PIXI.Application){
-    rendererSystemComponent = new RendererSystemComponent(pixiApp)
+    gameCamera = new GameCamera(pixiApp)
+    rendererSystemComponent = new RendererSystemComponent(pixiApp, gameCamera)
     initTestPlayers()
     rendererSystemComponent.Start()
     /*
