@@ -6,11 +6,6 @@ export class NetworkSystemComponent{
 
   constructor() {
     this.socket = io('http://localhost:3000')
-    document.addEventListener('keydown', (event) => {
-      if(event.key == "ArrowLeft"){
-        this.socket.emit('leftMove')
-      }
-    })
   }
   
   public initConnection(){
@@ -40,7 +35,6 @@ export class NetworkSystemComponent{
 
   private registerPlayerCommandEvents(){
     document.addEventListener('playerInput', (event: Event) => {
-      console.log(event.detail)
       const commands: string[] = []
       event.detail.forEach(command => {
         commands.push(command)
