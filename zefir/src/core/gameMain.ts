@@ -24,7 +24,6 @@ export function initGame(){
     document.addEventListener('stateReceived', (event: any) => {
       store.entities = event.detail
       rendererSystemComponent.update(store.entities)
-      console.log(store.entities)
     })
 }
 
