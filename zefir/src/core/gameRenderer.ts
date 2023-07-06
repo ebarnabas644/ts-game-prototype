@@ -1,16 +1,19 @@
 import * as PIXI from 'pixi.js'
 import { type Player } from './models/player'
 import { Entity } from './entity/entity'
+import type { GameCamera } from './gameCamera'
 
 type RenderDictionary = {[key: number]: PIXI.Sprite}
 
 export class RendererSystemComponent
 {
   public pixiApp: PIXI.Application
+  private gameCamera: GameCamera
   public renderDictionary: RenderDictionary
   private maintanceQueue: Set<number>
-  constructor(pixi: PIXI.Application){
+  constructor(pixi: PIXI.Application, gameCamera: GameCamera){
     this.pixiApp = pixi
+    this.gameCamera = gameCamera
     this.renderDictionary = {}
     this.maintanceQueue = new Set()
   }
@@ -35,8 +38,8 @@ export class RendererSystemComponent
     for (const key in entities) {
       for (const entityKey in entities[key]) {
         if(!this.isAlreadyCreated(entities[key][entityKey].id)){
-          this.renderDictionary[entities[key][entityKey].id] = PIXI.Sprite.from('./src/core/sprites/'+entities[key][entityKey].sprite)
-          this.pixiApp.stage.addChild(this.renderDictionary[entities[key][entityKey].id])
+          const entityToAdd = entities[key][entityKey]
+          this.addEntityToViewport(entityToAdd)
         }
         this.updatePosition(entities[key][entityKey])
         this.maintanceQueue.delete(entities[key][entityKey].id)
@@ -58,7 +61,7 @@ export class RendererSystemComponent
 
   private removeDestroyedEntities(){
     this.maintanceQueue.forEach(id => {
-      this.pixiApp.stage.removeChild(this.renderDictionary[Number(id)])
+      this.gameCamera.viewport.removeChild(this.renderDictionary[Number(id)])
       delete this.renderDictionary[Number(id)]
     });
   }
@@ -69,19 +72,9 @@ export class RendererSystemComponent
       this.maintanceQueue.add(Number(key))
     }
   }
-}
 
-let pos = 50
-
-function createPlayer(player: Player){
-  let sprite = PIXI.Sprite.from('./plane.png')
-  //this.pixiApp.stage.addChild(sprite)
-}
-
-function drawPlayer(player: Player){
-  let sprite = PIXI.Sprite.from('./plane.png')
-  sprite.x = player.x
-  sprite.y = player.y
-  sprite.height = player.height
-  sprite.width = player.width
+  private addEntityToViewport(entity: EntityDTO){
+    this.renderDictionary[entity.id] = PIXI.Sprite.from('./src/core/sprites/'+entity.sprite)
+    this.gameCamera.viewport.addChild(this.renderDictionary[entity.id])
+  }
 }
