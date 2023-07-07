@@ -75,7 +75,9 @@ export class RendererSystemComponent
   }
 
   private addEntityToViewport(entity: EntityDTO){
-    this.renderDictionary[entity.id] = PIXI.Sprite.from('./src/core/sprites/'+entity.sprite)
+    const sprite = PIXI.Sprite.from('./src/core/sprites/'+entity.sprite)
+    sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
+    this.renderDictionary[entity.id] = sprite
     this.gameCamera.viewport.addChild(this.renderDictionary[entity.id])
   }
 
