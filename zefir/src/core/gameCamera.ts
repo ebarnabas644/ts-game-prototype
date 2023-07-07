@@ -25,6 +25,10 @@ export class GameCamera{
         .pinch()
         .wheel()
         .decelerate()
+        .clamp({
+            direction: 'all',
+            underflow: 'center'
+        })
     }
 
     private compensateForDevicePixelRatio(){
