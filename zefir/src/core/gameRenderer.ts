@@ -16,6 +16,7 @@ export class RendererSystemComponent
     this.gameCamera = gameCamera
     this.renderDictionary = {}
     this.maintanceQueue = new Set()
+    this.renderMap()
   }
 
   public Start(){
@@ -76,5 +77,11 @@ export class RendererSystemComponent
   private addEntityToViewport(entity: EntityDTO){
     this.renderDictionary[entity.id] = PIXI.Sprite.from('./src/core/sprites/'+entity.sprite)
     this.gameCamera.viewport.addChild(this.renderDictionary[entity.id])
+  }
+
+  private renderMap(){
+    let map = PIXI.Sprite.from('./src/core/sprites/zefir.png')
+    map.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
+    this.gameCamera.viewport.addChild(map)
   }
 }
