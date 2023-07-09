@@ -13,13 +13,16 @@ function sendChat(message: string){
   console.log(message)
   networkSystemComponent.sendMessage('message', message)
   chat.push(networkSystemComponent.getConnectionId()+ ": "+message)
+  scrollToEnd()
 }
 
 function scrollToEnd(){
-  chatbox.value?.scrollTo({
+  setTimeout(() => {
+    chatbox.value?.scrollTo({
     top: chatbox.value.scrollHeight,
     behavior: 'smooth'
   })
+  }, 0)
 }
 
 document.addEventListener('chatMessage', (event: Event) => {
@@ -27,6 +30,7 @@ document.addEventListener('chatMessage', (event: Event) => {
   const data: any = customEvent.detail
 
   chat.push(data)
+  scrollToEnd()
 })
 
 </script>
