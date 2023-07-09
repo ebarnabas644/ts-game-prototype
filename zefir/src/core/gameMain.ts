@@ -49,7 +49,6 @@ function initTestPlayers(){
   player.addComponent('playerController', new PlayerControllerComponent())
   //player.addComponent('sprite', new SpriteComponent('./src/core/sprites/player.png'))
   const component = player.getComponent('sprite') as SpriteComponent
-  component.init()
   const spriteComp = player.getComponent('sprite') as SpriteComponent
   player2.addComponent('position', new PositionComponent(100,50))
   player2.addComponent('health', new HealthComponent(50))
