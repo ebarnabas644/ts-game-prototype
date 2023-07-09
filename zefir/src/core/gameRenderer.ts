@@ -21,7 +21,7 @@ export class RendererSystemComponent
 
   public Start(){
     let sprite = PIXI.Sprite.from('./plane.png')
-    this.pixiApp.stage.addChild(sprite)
+    //this.pixiApp.stage.addChild(sprite)
 
     let elapsed = 0.0;
     // Tell our application's ticker to run a new callback every frame, passing
