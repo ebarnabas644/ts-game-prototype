@@ -20,8 +20,13 @@ export class NetworkSystemComponent{
   
         document.dispatchEvent(event)
       })
-      this.socket.on('state', (entites: EntityDTODictionary) => {
-        emitCustomEvent('stateReceived', entites)
+      this.socket.on('state', (entities: EntityDTODictionary) => {
+        emitCustomEvent('stateReceived', entities)
+        //console.log(entities)
+      })
+
+      this.socket.on('playerCreated', (player: EntityDTO) => {
+        emitCustomEvent('playerReceived', player)
       })
   }
   
