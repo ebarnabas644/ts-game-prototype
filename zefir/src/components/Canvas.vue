@@ -4,6 +4,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { initGame, setRenderer } from '@/core/gameMain';
 import * as PIXI from 'pixi.js'
 import { io, Socket } from 'socket.io-client'
+import Chat from './Chat.vue';
 
 const pixiContainer = ref<HTMLElement | null>(null)
 let app: PIXI.Application | null = null
@@ -33,7 +34,7 @@ function resizeCanvas(event: any){
 
 <template>
   <div ref="pixiContainer"></div>
-  <Modal></Modal>
+  <Chat :defaultX="0.05" :defaultY="0.7"></Chat>
 </template>
 
 <style scoped>
