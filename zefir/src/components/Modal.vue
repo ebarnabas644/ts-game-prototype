@@ -5,15 +5,17 @@ import { usePlayerStatStore } from '@/stores/entity';
 import type { HealthComponent } from '@/core/entity/Components/healthComponent';
 import { Entity } from '@/core/entity/entity';
 
+const props = defineProps({
+  defaultX: Number,
+  defaultY: Number
+})
 let dragging = ref(false)
-let modalTop = ref(0)
-let modalLeft = ref(0)
+let modalTop = ref(props.defaultY! * window.innerHeight)
+let modalLeft = ref(props.defaultX! * window.innerWidth)
 let mouseX = 0
 let mouseY = 0
 let initialModalTop = 0
 let initialModalLeft = 0
-const chatInput = ref("")
-const chat: string[] = reactive([])
 const playerStat = usePlayerStatStore()
 
 function startDrag(event: any) {
@@ -39,55 +41,16 @@ function drag(event: any) {
     modalLeft.value = initialModalLeft + deltaX;
 }
 
-function sendChat(message: string){
-  console.log(message)
-  networkSystemComponent.sendMessage('message', message)
-  chat.push(networkSystemComponent.getConnectionId()+ ": "+message)
-}
-
-document.addEventListener('chatMessage', (event: Event) => {
-  const customEvent = event as CustomEvent
-  const data: any = customEvent.detail
-
-  chat.push(data)
-})
-
 </script>
 
 <template>
-    <div class="modal-container" v-if="!playerStat.isLoading" :style="{ top: modalTop + 'px', left: modalLeft + 'px' }">
-      <div class="modal-header" @mouseup="stopDrag" @mousedown="startDrag">
-        <h2>{{ playerStat?.entities['players'][0].health }}</h2>
+    <div class="p-2 absolute" v-if="!playerStat.isLoading" :style="{ top: modalTop + 'px', left: modalLeft + 'px' }">
+      <div class="cursor-move py-1" @mouseup="stopDrag" @mousedown="startDrag">
+        <hr class="my-0.5 border-gray-700">
+        <hr class="my-0.5 border-gray-700">
       </div>
-      <div class="modal-content">
-        <div v-for="msg in chat">
-          <p>
-            {{ msg }}
-          </p>
-        </div>
-        <input type="text" v-model="chatInput">
-        <button @click="sendChat(chatInput)">Send</button>
+      <div class="w-60">
+        <slot></slot>
       </div>
     </div>
   </template>
-  
-  <style scoped>
-  .modal-container {
-    position: absolute;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-  
-  .modal-header {
-    cursor: move;
-    padding: 5px;
-    background-color: #ccc;
-    color: black;
-  }
-  
-  .modal-content {
-    padding: 10px;
-    color: black;
-  }
-  </style>
