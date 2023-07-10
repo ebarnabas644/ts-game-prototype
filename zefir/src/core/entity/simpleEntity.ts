@@ -9,7 +9,7 @@ export class SimpleEntity {
   id: number
   name: string
   position: { x: number, y: number }
-  sprite: PIXI.Sprite
+  sprite: PIXI.AnimatedSprite
   health: number
   tags: {[key: string]: any}
 
@@ -21,7 +21,11 @@ export class SimpleEntity {
       y: position.y
     }
     this.health = health
-    this.sprite = PIXI.Sprite.from(spritePath)
+    this.sprite = new PIXI.AnimatedSprite(sprite.animations.idle)
+    this.sprite.anchor.x = 0.5
+    this.sprite.anchor.y = 0.5
+    this.sprite.animationSpeed = 0.166
+    this.sprite.play()
     this.sprite.x = position.x
     this.sprite.y = position.y
     this.tags = tags
@@ -29,3 +33,48 @@ export class SimpleEntity {
 
 
 }
+
+const playerSpriteData = {
+  frames: {
+    idle1: {
+      frame: { x: 0, y: 0, w: 48, h:48 },
+      sourceSize: { w: 48, h: 48},
+      spriteSourceSize: { x: 0, y: 0, w: 48, h: 48 }
+    },
+    idle2: {
+      frame: { x: 48, y: 0, w: 48, h:48 },
+      sourceSize: { w: 48, h: 48},
+      spriteSourceSize: { x: 0, y: 0, w: 48, h: 48 }
+    },
+    idle3: {
+      frame: { x: 96, y: 0, w: 48, h:48 },
+      sourceSize: { w: 48, h: 48},
+      spriteSourceSize: { x: 0, y: 0, w: 48, h: 48 }
+    },
+    idle4: {
+      frame: { x: 144, y: 0, w: 48, h:48 },
+      sourceSize: { w: 48, h: 48},
+      spriteSourceSize: { x: 0, y: 0, w: 48, h: 48 }
+    },
+    idle5: {
+      frame: { x: 192, y: 0, w: 48, h:48 },
+      sourceSize: { w: 48, h: 48},
+      spriteSourceSize: { x: 0, y: 0, w: 48, h: 48 }
+    }
+  },
+  animations: {
+    idle: ['idle1', 'idle2', 'idle3', 'idle4', 'idle5']
+  },
+  meta: {
+    image: './src/core/sprites/playertest.png',
+    format: 'RGBA8888',
+    size: { w: 48, h: 48 },
+    scale: "1"
+  },
+}
+
+const sprite = new PIXI.Spritesheet(PIXI.BaseTexture.from(playerSpriteData.meta.image), playerSpriteData)
+await sprite.parse()
+const anim = new PIXI.AnimatedSprite(sprite.animations.idle)
+anim.animationSpeed = 0.166
+anim.play()
