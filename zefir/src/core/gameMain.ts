@@ -16,27 +16,30 @@ let inputSystemComponent: InputSystemComponent
 let counter = 0
 
 export function initGame(){
-    gameState = new GameState()
-    counter = 0
-    inputSystemComponent = new InputSystemComponent()
-    networkSystemComponent = new NetworkSystemComponent()
-    networkSystemComponent.initConnection()
-    emitCustomEvent('engineReady', '')
-    document.addEventListener('stateReceived', (event: any) => {
-      gameState.updateGameState(event.detail)
-      rendererSystemComponent.update(gameState.gameState)
-      if(counter == 0){
-        const findControlled = gameState.gameState.find(entity => entity.tags["controlledby"] == networkSystemComponent.getConnectionId())
-        console.log(findControlled)
-        if(findControlled){
-          gameCamera.setFollow(findControlled)
-          counter++
-          console.log("camera set")
-        }
-        
-      }
+  networkSystemComponent = new NetworkSystemComponent()
+    document.addEventListener('startGame', (event) => {
+      
     })
-    store.isLoading = false
+    gameState = new GameState()
+      counter = 0
+      inputSystemComponent = new InputSystemComponent()
+      networkSystemComponent.initConnection()
+      emitCustomEvent('engineReady', '')
+      document.addEventListener('stateReceived', (event: any) => {
+        gameState.updateGameState(event.detail)
+        rendererSystemComponent.update(gameState.gameState)
+        if(counter == 0){
+          const findControlled = gameState.gameState.find(entity => entity.tags["controlledby"] == networkSystemComponent.getConnectionId())
+          console.log(findControlled)
+          if(findControlled){
+            gameCamera.setFollow(findControlled)
+            counter++
+            console.log("camera set")
+          }
+          
+        }
+      })
+      store.isLoading = false
 }
 
 export function setRenderer(pixiApp: PIXI.Application){
