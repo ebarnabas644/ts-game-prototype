@@ -7,7 +7,9 @@ import { Entity } from '@/core/entity/entity';
 
 const props = defineProps({
   defaultX: Number,
-  defaultY: Number
+  defaultY: Number,
+  modalwidth: Number,
+  modalheight: Number
 })
 let dragging = ref(false)
 let modalTop = ref(props.defaultY! * window.innerHeight)
@@ -49,7 +51,7 @@ function drag(event: any) {
         <hr class="my-0.5 border-gray-700">
         <hr class="my-0.5 border-gray-700">
       </div>
-      <div class="w-60">
+      <div :style="{width: modalwidth + 'px'}">
         <slot></slot>
       </div>
     </div>
