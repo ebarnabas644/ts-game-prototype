@@ -1,5 +1,6 @@
 import { io, Socket } from 'socket.io-client'
 import { emitCustomEvent } from './utilities/customEventEmitter';
+import type { EntityDTO, EntityDTODictionary } from './entity/entityDTO';
 
 export class NetworkSystemComponent{
   private socket: Socket;
