@@ -14,6 +14,7 @@ function sendChat(message: string){
   networkSystemComponent.sendMessage('message', message)
   chat.push(networkSystemComponent.getConnectionId()+ ": "+message)
   scrollToEnd()
+  chatInput.value = ""
 }
 
 function scrollToEnd(){
