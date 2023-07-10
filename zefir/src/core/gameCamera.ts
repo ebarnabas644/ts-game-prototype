@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
+import type { SimpleEntity } from './entity/simpleEntity'
 
 export class GameCamera{
     public viewport: Viewport
@@ -17,6 +18,12 @@ export class GameCamera{
         this.setCameraPlugins()
         this.compensateForDevicePixelRatio()
         window.addEventListener("resize", this.resizeViewport)
+    }
+
+    public setFollow(entity: SimpleEntity){
+        this.viewport.follow(entity.sprite, {
+            speed: 6
+        })
     }
 
     private setCameraPlugins(){
