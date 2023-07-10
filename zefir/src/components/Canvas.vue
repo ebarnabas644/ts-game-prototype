@@ -5,6 +5,8 @@ import { initGame, setRenderer } from '@/core/gameMain';
 import * as PIXI from 'pixi.js'
 import { io, Socket } from 'socket.io-client'
 import Chat from './Chat.vue';
+import StatusBar from './StatusBar.vue';
+import Minimap from './Minimap.vue';
 
 const pixiContainer = ref<HTMLElement | null>(null)
 let app: PIXI.Application | null = null
@@ -35,6 +37,8 @@ function resizeCanvas(event: any){
 <template>
   <div ref="pixiContainer"></div>
   <Chat :defaultX="0.05" :defaultY="0.7"></Chat>
+  <StatusBar :defaultX="0.05" :defaultY="0.05"></StatusBar>
+  <Minimap :defaultX="0.90" :defaultY="0.05"></Minimap>
 </template>
 
 <style scoped>
