@@ -19,7 +19,7 @@ export class GameState{
     }
 
     updateGameState(state: EntityDTODictionary){
-        state.entities = state
+        store.entities = state
         this.gameState = convertEntityDTODictionaryToSimpleEntityDictionary(state)
     }
 }
