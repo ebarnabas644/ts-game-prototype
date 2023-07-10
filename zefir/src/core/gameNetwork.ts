@@ -30,6 +30,10 @@ export class NetworkSystemComponent{
         emitCustomEvent('playerReceived', player)
       })
   }
+
+  public sendPlayerName(name: string){
+    this.socket.emit('playerName', name)
+  }
   
   public getConnectionId(): string{
     return this.socket.id
