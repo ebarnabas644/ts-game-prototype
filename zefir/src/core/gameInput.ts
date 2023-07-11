@@ -3,12 +3,28 @@ import { emitCustomEvent } from "./utilities/customEventEmitter"
 export class InputSystemComponent{
     private pushedButtons: Set<string>
     private previous: Set<string>
+    private pressHandler
+    private releaseHandler
     constructor(){
         this.pushedButtons = new Set()
         this.previous = new Set()
+        this.pressHandler = (event: any) => this.handleButtonPress(event)
+        this.releaseHandler = (event: any) => this.handleButtonRelease(event)
+        this.enableInput()
+    }
 
-        document.addEventListener('keydown', (event) => {
-            this.previous = new Set(this.pushedButtons)
+    public enableInput(){
+        document.addEventListener('keydown', this.pressHandler)
+        document.addEventListener('keyup', this.releaseHandler)
+    }
+
+    public disableInput(){
+        document.removeEventListener('keydown', this.pressHandler)
+        document.removeEventListener('keyup', this.releaseHandler)
+    }
+
+    private handleButtonPress(event: any){
+        this.previous = new Set(this.pushedButtons)
             if(event.key == "ArrowLeft" || event.key == "a"){
                 this.pushedButtons.add('leftMoveCommand')
             }
@@ -25,8 +41,9 @@ export class InputSystemComponent{
             if(!this.previouslyPressedEqualsCurrentlyPressed()){
                 emitCustomEvent('playerInput', this.pushedButtons)
             }
-          })
-        document.addEventListener('keyup', (event) => {
+    }
+
+    private handleButtonRelease(event: any){
         if(event.key == "ArrowLeft" || event.key == "a"){
             this.pushedButtons.delete('leftMoveCommand')
         }
@@ -40,7 +57,6 @@ export class InputSystemComponent{
             this.pushedButtons.delete('downMoveCommand')
         }
         emitCustomEvent('playerInput', this.pushedButtons)
-        })
     }
 
     private previouslyPressedEqualsCurrentlyPressed(){
