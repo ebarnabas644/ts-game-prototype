@@ -28,6 +28,11 @@ export class SimpleEntity {
     this.sprite.play()
     this.sprite.x = position.x
     this.sprite.y = position.y
+    const container = new PIXI.Container()
+    container.meta = {
+      id: this.id
+    }
+    this.sprite.addChild(container)
     this.tags = tags
   }
 
