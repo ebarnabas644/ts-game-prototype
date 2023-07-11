@@ -7,6 +7,7 @@ const playerStat = usePlayerStatStore()
 
 <template>
     <Modal :default-x="0.1" :default-y="0.1" :modalwidth="100" :modalheight="100">
+        <h2>{{ playerStat.controlledEntity?.name }}</h2>
         <h2>Health:{{ playerStat.controlledEntity?.health }}</h2>
     </Modal>
 </template>
