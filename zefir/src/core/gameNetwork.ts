@@ -12,8 +12,6 @@ export class NetworkSystemComponent{
   public initConnection(){
       this.socket.on('connect', () => {
         console.log('Connected to the server');
-        this.socket.emit('newPlayer')
-        this.registerPlayerCommandEvents()
     });
       this.socket.on('response', (message: string) => {
         console.log('Received response: '+ message)
@@ -26,13 +24,14 @@ export class NetworkSystemComponent{
         //console.log(entities)
       })
 
-      this.socket.on('playerCreated', (player: EntityDTO) => {
-        emitCustomEvent('playerReceived', player)
+      this.socket.on('playerCreated', () => {
+        emitCustomEvent('playerReceived', '')
       })
   }
 
-  public sendPlayerName(name: string){
-    this.socket.emit('playerName', name)
+  public sendConnectionRequest(name: string){
+    this.socket.emit('newPlayer', name)
+    this.registerPlayerCommandEvents()
   }
   
   public getConnectionId(): string{
