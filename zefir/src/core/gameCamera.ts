@@ -22,7 +22,9 @@ export class GameCamera{
 
     public setFollow(entity: SimpleEntity){
         this.viewport.follow(entity.sprite, {
-            speed: 6
+            speed: 4,
+            acceleration: 0.1,
+            
         })
     }
 
@@ -31,10 +33,16 @@ export class GameCamera{
         .drag()
         .pinch()
         .wheel()
-        .decelerate()
+        .decelerate({
+            minSpeed: 0.01
+        })
         .clamp({
             direction: 'all',
             underflow: 'center'
+        })
+        .clampZoom({
+            minScale: 1,
+            maxScale: 3
         })
     }
 
