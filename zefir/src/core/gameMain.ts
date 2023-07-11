@@ -12,40 +12,37 @@ export let networkSystemComponent: NetworkSystemComponent
 export let rendererSystemComponent: RendererSystemComponent
 export let gameState: GameState
 let gameCamera: GameCamera
-let inputSystemComponent: InputSystemComponent
+export let inputSystemComponent: InputSystemComponent
 let counter = 0
 
 export function initGame(){
   networkSystemComponent = new NetworkSystemComponent()
-    document.addEventListener('startGame', (event) => {
-      
-    })
-    gameState = new GameState()
+  networkSystemComponent.initConnection()
+    document.addEventListener('playerReceived', (event) => {
+      gameState = new GameState()
       counter = 0
       inputSystemComponent = new InputSystemComponent()
-      networkSystemComponent.initConnection()
       emitCustomEvent('engineReady', '')
+      rendererSystemComponent.Start(gameState)
       document.addEventListener('stateReceived', (event: any) => {
         gameState.updateGameState(event.detail)
-        rendererSystemComponent.update(gameState.gameState)
+        // TODO: Hell no pls fix this future me
         if(counter == 0){
           const findControlled = gameState.gameState.find(entity => entity.tags["controlledby"] == networkSystemComponent.getConnectionId())
-          console.log(findControlled)
           if(findControlled){
             gameCamera.setFollow(findControlled)
-            counter++
-            console.log("camera set")
+            //counter++
           }
           
         }
       })
       store.isLoading = false
+    })
 }
 
 export function setRenderer(pixiApp: PIXI.Application){
     gameCamera = new GameCamera(pixiApp)
     rendererSystemComponent = new RendererSystemComponent(pixiApp, gameCamera)
-    rendererSystemComponent.Start()
     /*
     rendererSystemComponent.pixiApp.ticker.add((delta) => {
       for (const key in store.players){
