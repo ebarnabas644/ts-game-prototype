@@ -3,14 +3,17 @@ import { ref } from 'vue';
 import { networkSystemComponent } from '@/core/gameMain';
 import { useRouter } from 'vue-router';
 import { emitCustomEvent } from '@/core/utilities/customEventEmitter';
+import { usePlayerStatStore } from '@/stores/entity';
 
 const nameInput = ref("")
 const router = useRouter()
+const playerStatStore = usePlayerStatStore()
 
 function sendLoginName(name: string){
-  networkSystemComponent.sendPlayerName(name)
-  router.push('/')
+  networkSystemComponent.sendConnectionRequest(name)
   emitCustomEvent('startGame', '')
+  playerStatStore.isLoggedIn = true
+  router.push('/game')
 }
 
 </script>
