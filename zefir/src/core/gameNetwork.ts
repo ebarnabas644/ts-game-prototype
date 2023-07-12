@@ -14,14 +14,10 @@ export class NetworkSystemComponent{
         console.log('Connected to the server');
     });
       this.socket.on('response', (message: string) => {
-        console.log('Received response: '+ message)
-        const event = new CustomEvent('chatMessage', {detail: message})
-  
-        document.dispatchEvent(event)
+        emitCustomEvent('chatMessage', message)
       })
       this.socket.on('state', (entities: EntityDTODictionary) => {
         emitCustomEvent('stateReceived', entities)
-        //console.log(entities)
       })
 
       this.socket.on('playerCreated', () => {
