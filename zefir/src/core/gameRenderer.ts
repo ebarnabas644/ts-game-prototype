@@ -48,8 +48,10 @@ export class RendererSystemComponent
   }
 
   private updatePosition(entityDTO: SimpleEntity){
-    this.renderDictionary[entityDTO.id].sprite.x = entityDTO.position.x
-    this.renderDictionary[entityDTO.id].sprite.y = entityDTO.position.y
+    let interpolated = new Vec2()
+    v.mixN2(interpolated, [this.renderDictionary[entityDTO.id].sprite.x, this.renderDictionary[entityDTO.id].sprite.y], [entityDTO.position.x, entityDTO.position.y], 0.4)
+    this.renderDictionary[entityDTO.id].sprite.x = interpolated.x
+    this.renderDictionary[entityDTO.id].sprite.y = interpolated.y
   }
 
   private removeDestroyedEntities(){
