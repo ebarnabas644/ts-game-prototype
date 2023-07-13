@@ -1,4 +1,7 @@
 import { store } from '../gameState'
+import { SpritesheetBuilder } from '../utilities/spriteSheetBuilder';
+import { spriteLibrary } from '../gameMain';
+import { type Sheet } from '../types/sheet';
 import * as PIXI from 'pixi.js'
 
 
@@ -12,6 +15,8 @@ export class SimpleEntity {
   state: string
   health: number
   tags: {[key: string]: any}
+  spriteSheet: {[key: string]: Sheet}
+  flipped: boolean
 
   constructor(id: number, name: string, position: {x: number, y: number}, spritePath: string, health: number, tags: {[key: string]: any}, state: string) {
     this.id = id
@@ -20,23 +25,18 @@ export class SimpleEntity {
       x: position.x,
       y: position.y
     }
+    this.spriteSheet = spriteLibrary.getSheet(spritePath)
     this.health = health
     this.state = state
-    this.runSprite = new PIXI.AnimatedSprite(sprite.animations.run)
-    this.idleDownSprite = new PIXI.AnimatedSprite(sprite.animations.idleDown)
-    this.sprite = new PIXI.AnimatedSprite(this.idleDownSprite.textures)
+    this.sprite = new PIXI.AnimatedSprite(this.spriteSheet[this.state].textures)
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
     this.sprite.animationSpeed = 0.166
     this.sprite.play()
     this.sprite.x = position.x
     this.sprite.y = position.y
-    const container = new PIXI.Container()
-    container.meta = {
-      id: this.id
-    }
-    this.sprite.addChild(container)
     this.tags = tags
+    this.flipped = false
   }
 
   release(){
@@ -47,16 +47,18 @@ export class SimpleEntity {
     if(this.state != newState){
       this.state = newState
       this.sprite.stop()
-      this.idleDownSprite.stop()
-      this.runSprite.stop()
-      if(this.state == 'idle'){
-        this.sprite.textures = this.idleDownSprite.textures
+      console.log(this.spriteSheet[this.state].options.horizontalInvert)
+      if(this.spriteSheet[this.state].options.horizontalInvert){
+        this.sprite.scale.x *= -1
+        this.flipped = true
       }
-      else if(this.state == 'run'){
-        this.sprite.textures = this.runSprite.textures
+      else if(this.flipped){
+        console.log("reset flip")
+        this.sprite.scale.x = Math.abs(this.sprite.scale.x)
+        this.flipped = false
       }
-      this.sprite.play()
-    }
+      this.sprite.textures = this.spriteSheet[this.state].textures
+      this.sprite.gotoAndPlay(0)
   }
 
 }
