@@ -36,7 +36,7 @@ function resizeCanvas(event: any){
 
 <template>
   <div ref="pixiContainer"></div>
-  <Chat :defaultX="0.05" :defaultY="0.6"></Chat>
+  <Chat :defaultX="0.05" :defaultY="0.7"></Chat>
   <StatusBar :defaultX="0.05" :defaultY="0.05"></StatusBar>
   <Minimap :defaultX="0.90" :defaultY="0.05"></Minimap>
 </template>
