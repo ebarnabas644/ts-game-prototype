@@ -70,7 +70,6 @@ export class RendererSystemComponent
 
   private addEntityToViewport(entity: SimpleEntity){
     const sprite = entity.sprite
-    sprite.id = entity.id
     sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
     this.gameCamera.viewport.addChild(sprite)
     this.renderDictionary[entity.id] = entity
