@@ -26,6 +26,7 @@ export class GameCamera{
             acceleration: 0.1,
             
         })
+        //test
     }
 
     private setCameraPlugins(){
