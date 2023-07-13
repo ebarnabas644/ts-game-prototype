@@ -1,23 +1,26 @@
 import { NetworkSystemComponent } from "./gameNetwork";
 import { RendererSystemComponent } from "./gameRenderer"
 import * as PIXI from 'pixi.js'
-import { emitCustomEvent } from './utilities/customEventEmitter'
 import { store } from "./gameState";
 import { InputSystemComponent } from "./gameInput";
 import { GameCamera } from "./gameCamera"
-import { convertEntityDTODictionaryToSimpleEntityDictionary } from "./entity/entityDTO";
 import { GameState } from "./gameState";
+import { SpriteLibrary } from "./data/spriteLibrary";
+import { SpritesheetBuilder } from "./utilities/spriteSheetBuilder";
 
 export let networkSystemComponent: NetworkSystemComponent
 export let rendererSystemComponent: RendererSystemComponent
 export let inputSystemComponent: InputSystemComponent
 export let gameState: GameState
+export let spriteLibrary: SpriteLibrary
 let gameCamera: GameCamera
 
 
-export function initGame(){
+export async function initGame(){
   networkSystemComponent = new NetworkSystemComponent()
   networkSystemComponent.initConnection()
+  spriteLibrary = new SpriteLibrary('./src/core/sprites/', new SpritesheetBuilder())
+  await spriteLibrary.initTextures()
     document.addEventListener('playerReceived', (event) => {
       gameState = new GameState()
       inputSystemComponent = new InputSystemComponent()
