@@ -12,8 +12,8 @@ const props = defineProps({
   modalheight: Number
 })
 let dragging = ref(false)
-let modalTop = ref(props.defaultY! * window.innerHeight)
-let modalLeft = ref(props.defaultX! * window.innerWidth)
+let modalTop = ref((props.defaultY! / window.devicePixelRatio) * window.innerHeight)
+let modalLeft = ref((props.defaultX!) * window.innerWidth)
 let mouseX = 0
 let mouseY = 0
 let initialModalTop = 0
