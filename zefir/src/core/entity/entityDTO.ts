@@ -13,7 +13,7 @@ export type EntityDTO = {
 export type EntityDTODictionary = EntityDTO[]
 
 export function convertEntityDTOtoSimpleEntity(entityDTO: EntityDTO){
-    return new SimpleEntity(entityDTO.id, entityDTO.name, entityDTO.position, './src/core/sprites/'+entityDTO.sprite, entityDTO.health, entityDTO.tags, entityDTO.state)
+    return new SimpleEntity(entityDTO.id, entityDTO.name, entityDTO.position, entityDTO.sprite, entityDTO.health, entityDTO.tags, entityDTO.state)
 }
 
 export function convertEntityDTODictionaryToSimpleEntityDictionary(entityDTODictionary: EntityDTODictionary){
