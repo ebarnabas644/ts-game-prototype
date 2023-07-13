@@ -16,6 +16,6 @@ app.use(pinia)
 app.use(router)
 const testStore = usePlayerStatStore()
 setStore(testStore)
-initGame()
+await initGame()
 
 app.mount('#app')
