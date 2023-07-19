@@ -6,7 +6,7 @@ export class NetworkSystemComponent{
   private socket: Socket;
 
   constructor() {
-    this.socket = io('http://localhost:3000')
+    this.socket = io('http://35.233.97.188:3000')
   }
   
   public initConnection(){
@@ -39,9 +39,9 @@ export class NetworkSystemComponent{
   }
 
   private registerPlayerCommandEvents(){
-    document.addEventListener('playerInput', (event: Event) => {
+    document.addEventListener('playerInput', (event: any) => {
       const commands: string[] = []
-      event.detail.forEach(command => {
+      event.detail.forEach((command: any) => {
         commands.push(command)
       });
       this.socket.emit('playerCommand', commands)

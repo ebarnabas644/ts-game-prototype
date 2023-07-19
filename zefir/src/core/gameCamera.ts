@@ -31,8 +31,6 @@ export class GameCamera{
 
     private setCameraPlugins(){
         this.viewport
-        .drag()
-        .pinch()
         .wheel()
         .decelerate({
             minSpeed: 0.01

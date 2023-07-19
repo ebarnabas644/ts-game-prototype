@@ -1,7 +1,7 @@
 import { convertEntityDTODictionaryToSimpleEntityDictionary, type EntityDTODictionary, convertEntityDTOtoSimpleEntity, type EntityDTO } from "./entity/entityDTO";
 import type { SimpleEntity, SimpleEntityDictionary } from "./entity/simpleEntity";
 
-export let store;
+export let store: any;
 
 export function setStore(storeToSet: any){
     store = storeToSet

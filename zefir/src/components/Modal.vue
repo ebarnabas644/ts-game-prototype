@@ -2,8 +2,6 @@
 import { onMounted, pushScopeId, reactive, ref } from 'vue';
 import { networkSystemComponent } from '@/core/gameMain';
 import { usePlayerStatStore } from '@/stores/entity';
-import type { HealthComponent } from '@/core/entity/Components/healthComponent';
-import { Entity } from '@/core/entity/entity';
 
 const props = defineProps({
   defaultX: Number,

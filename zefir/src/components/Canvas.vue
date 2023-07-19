@@ -19,7 +19,7 @@ onMounted(() => {
     view: pixiContainer.value!.appendChild(document.createElement('canvas')),
     backgroundColor: 0x5c812f
   });
-  globalThis.__PIXI_APP__ = app //for debugging pixi app with browser extension
+  //globalThis.__PIXI_APP__ = app //for debugging pixi app with browser extension
   setRenderer(app)
 }
 )
