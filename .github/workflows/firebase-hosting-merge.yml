@@ -17,6 +17,6 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROJECT_ZEFIR }}'
           channelId: live
           projectId: project-zefir
+          entrypoint: ./zefir
       - name: Build and deploy
-        working-directory: ./zefir
         run: npm ci && npm run build
