@@ -15,7 +15,7 @@ export let gameState: GameState
 export let spriteLibrary: SpriteLibrary
 let gameCamera: GameCamera
 
-
+let counter = 0
 export async function initGame(){
   networkSystemComponent = new NetworkSystemComponent()
   networkSystemComponent.initConnection()
@@ -28,10 +28,31 @@ export async function initGame(){
       document.addEventListener('stateReceived', (event: any) => {
         gameState.updateGameState(event.detail)
         // TODO: Hell no pls fix this future me
-        const findControlled = gameState.gameState.find(entity => entity.tags["controlledby"] == networkSystemComponent.getConnectionId())
+        if(counter == 0){
+          const findControlled = gameState.gameState.find(entity => entity.tags["controlledby"] == networkSystemComponent.getConnectionId())
           if(findControlled){
-            gameCamera.setFollow(findControlled)
+            //gameCamera.setFollow(findControlled)
+            gameCamera.viewport
+            .wheel()
+            .decelerate({
+                minSpeed: 0.01
+            })
+            .clamp({
+                direction: 'all'
+            })
+            .clampZoom({
+                minScale: 1,
+                maxScale: 3
+            })
+            .follow(findControlled.sprite,
+              {
+                speed: 20,
+              })
           }
+          counter++
+          console.log("camera set")
+        }
+        //console.log(gameCamera.viewport)
       })
       store.isLoading = false
     })
