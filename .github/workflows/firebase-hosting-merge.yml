@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Build and deploy
+        run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
@@ -18,5 +20,3 @@ jobs:
           channelId: live
           projectId: project-zefir
           entrypoint: ./zefir
-      - name: Build and deploy
-        run: npm ci && npm run build
