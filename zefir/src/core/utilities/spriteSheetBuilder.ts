@@ -82,7 +82,7 @@ export class SpritesheetBuilder{
     }
 
     async build(){
-        const spritesheet = new PIXI.Spritesheet(PIXI.BaseTexture.from(this.spriteData.meta.image), this.spriteData)
+        const spritesheet = new PIXI.Spritesheet(PIXI.BaseTexture.from("https://firebasestorage.googleapis.com/v0/b/project-zefir.appspot.com/o/player.png?alt=media"), this.spriteData)
         await spritesheet.parse()
         const resultSprites: {[key: string]: Sheet } = {}
         for (const key in this.spriteData.animations) {
