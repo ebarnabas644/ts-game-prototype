@@ -24,7 +24,7 @@ export async function initGame(){
     document.addEventListener('playerReceived', (event) => {
       gameState = new GameState()
       inputSystemComponent = new InputSystemComponent()
-      rendererSystemComponent.Start(gameState)
+      //rendererSystemComponent.Start(gameState)
       document.addEventListener('stateReceived', (event: any) => {
         gameState.updateGameState(event.detail)
         // TODO: Hell no pls fix this future me
