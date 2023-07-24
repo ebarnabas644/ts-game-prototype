@@ -6,11 +6,15 @@ export class NetworkSystemComponent{
   private socket: Socket;
 
   constructor() {
-    this.socket = io('http://35.233.97.188:3000')
+    this.socket = io('https://zefir.server.iedre.dev', {
+      transports: ['websocket'],
+      upgrade: false
+    })
   }
   
   public initConnection(){
       this.socket.on('connect', () => {
+        console.time()
         console.log('Connected to the server');
     });
       this.socket.on('response', (message: string) => {
@@ -22,6 +26,10 @@ export class NetworkSystemComponent{
 
       this.socket.on('playerCreated', () => {
         emitCustomEvent('playerReceived', '')
+      })
+      this.socket.on('disconnect', (reason: any) => {
+        console.log('Connection lost because '+reason)
+        console.timeEnd()
       })
   }
 
