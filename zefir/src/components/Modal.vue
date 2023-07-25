@@ -45,7 +45,7 @@ function drag(event: any) {
 
 <template>
     <div class="p-2 absolute" v-if="!playerStat.isLoading" :style="{ top: modalTop + 'px', left: modalLeft + 'px' }">
-      <div class="cursor-move py-1" @mouseup="stopDrag" @mousedown="startDrag">
+      <div class="cursor-move py-1" @mouseup="stopDrag" @mousedown="startDrag" @touchstart="startDrag" @touchend="stopDrag">
         <hr class="my-0.5 border-gray-700">
         <hr class="my-0.5 border-gray-700">
       </div>
