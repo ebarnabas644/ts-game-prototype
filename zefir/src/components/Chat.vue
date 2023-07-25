@@ -59,7 +59,7 @@ document.addEventListener('chatMessage', (event: Event) => {
         </div>
       </div>
       <div class="flex justify-between bg-gray-900 bg-opacity-10 border-t-black border-t-[1px]">
-        <input @focus="inputFocus()" @focusout="inputFocusOut()" class="border-b-black bg-transparent focus:outline-none" type="text" v-model="chatInput">
+        <input @focus="inputFocus()" @focusout="inputFocusOut()" @keyup.enter="sendChat(chatInput)" class="border-b-black bg-transparent focus:outline-none" type="text" v-model="chatInput">
         <button @click="sendChat(chatInput)">Send</button>
       </div>
     </Modal>

@@ -22,9 +22,9 @@ function sendLoginName(name: string){
   <div>
     <br>
     Enter your name:
-    <input class="text-black" type="text" v-model="nameInput">
+    <input class="text-black" type="text" v-model="nameInput" @keyup.enter="sendLoginName(nameInput)">
     <br>
-    <button class="border-white" @click="sendLoginName(nameInput)">Play!</button>
+    <button class="border-white bg-slate-700" @click="sendLoginName(nameInput)">Play!</button>
   </div>
 </template>
 
