@@ -43,6 +43,7 @@ export class GameCamera{
             minScale: 1,
             maxScale: 3
         })
+        .pinch()
     }
 
     private compensateForDevicePixelRatio(){
