@@ -25,7 +25,7 @@ export class SpriteLibrary{
         this.spritesheetBuilder.addRow('idleUp', { x: 0, y: 96 }, 6)
         this.spritesheetBuilder.addRow('runDown', { x: 0, y: 144 }, 6)
         this.spritesheetBuilder.addRow('runRight', { x: 0, y: 192 }, 6)
-        this.spritesheetBuilder.addRow('runLeft', { x: 0, y: 192 }, 6)
+        this.spritesheetBuilder.addRow('runLeft', { x: 0, y: 192 }, 6, true)
         this.spritesheetBuilder.addRow('runUp', { x: 0, y: 240 }, 6)
         this.spritesheetBuilder.addRow('meleeDown', { x: 0, y: 288 }, 4)
         this.spritesheetBuilder.addRow('meleeRight', { x: 0, y: 336 }, 4)
