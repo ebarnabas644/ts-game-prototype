@@ -76,8 +76,13 @@ export class RendererSystemComponent
   }
 
   private renderMap(){
-    let map = PIXI.Sprite.from('./src/core/sprites/zefir.png')
-    map.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
-    this.gameCamera.viewport.addChild(map)
+    try{
+      let map = PIXI.Sprite.from('https://firebasestorage.googleapis.com/v0/b/project-zefir.appspot.com/o/zefir.png?alt=media')
+      map.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
+      this.gameCamera.viewport.addChild(map)
+    }
+    catch{
+      console.log("image failed to load")
+    }
   }
 }
