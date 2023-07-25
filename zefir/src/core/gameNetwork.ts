@@ -24,8 +24,8 @@ export class NetworkSystemComponent{
         emitCustomEvent('stateReceived', entities)
       })
 
-      this.socket.on('playerCreated', () => {
-        emitCustomEvent('playerReceived', '')
+      this.socket.on('playerCreated', (name: string) => {
+        emitCustomEvent('playerReceived', name)
       })
       this.socket.on('disconnect', (reason: any) => {
         console.log('Connection lost because '+reason)
