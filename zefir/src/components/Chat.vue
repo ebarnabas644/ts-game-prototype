@@ -37,6 +37,13 @@ function inputFocusOut(){
   inputSystemComponent.enableInput()
 }
 
+document.addEventListener('playerReceived', (event: Event) => {
+  const customEvent = event as CustomEvent
+  const data: any = customEvent.detail
+  
+  chat.push(data + ' joined')
+})
+
 document.addEventListener('chatMessage', (event: Event) => {
   const customEvent = event as CustomEvent
   const data: any = customEvent.detail
