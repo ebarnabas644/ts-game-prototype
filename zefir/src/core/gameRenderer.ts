@@ -7,82 +7,91 @@ import type { GameState } from './gameState'
 import * as v from '@thi.ng/vectors'
 import { Vec2 } from '@thi.ng/vectors'
 
-type RenderDictionary = {[key: number]: SimpleEntity}
+type RenderDictionary = { [key: number]: SimpleEntity }
 
-export class RendererSystemComponent
-{
-  public pixiApp: PIXI.Application
-  private gameCamera: GameCamera
-  public renderDictionary: RenderDictionary
-  private maintanceQueue: Set<number>
-  constructor(pixi: PIXI.Application, gameCamera: GameCamera){
-    this.pixiApp = pixi
-    this.gameCamera = gameCamera
-    this.renderDictionary = {}
-    this.maintanceQueue = new Set()
-    this.renderMap()
-  }
+export class RendererSystemComponent {
+        public pixiApp: PIXI.Application
+        private gameCamera: GameCamera
+        public renderDictionary: RenderDictionary
+        private maintanceQueue: Set<number>
+        constructor(pixi: PIXI.Application, gameCamera: GameCamera) {
+                this.pixiApp = pixi
+                this.gameCamera = gameCamera
+                this.renderDictionary = {}
+                this.maintanceQueue = new Set()
+                this.renderMap()
+        }
 
-  public Start(gameState: GameState){
-    this.pixiApp.ticker.add((delta) => {
-      
-    this.update(gameState.gameState)
-  });
-  }
+        public Start(gameState: GameState) {
+                this.pixiApp.ticker.add((delta) => {
+                        this.update(gameState.gameState)
+                })
+        }
 
-  public update(entities: SimpleEntityDictionary){
-    for (let index = 0; index < entities.length; index++) {
-      const entity = entities[index];
-      if(!this.isAlreadyCreated(entity.id)){
-        this.addEntityToViewport(entity)
-      }
-      this.updatePosition(entity)
-      this.maintanceQueue.delete(entity.id)
-    }
-    this.removeDestroyedEntities()
-    this.copyMaintanceQueue()
-  }
+        public update(entities: SimpleEntityDictionary) {
+                for (let index = 0; index < entities.length; index++) {
+                        const entity = entities[index]
+                        if (!this.isAlreadyCreated(entity.id)) {
+                                this.addEntityToViewport(entity)
+                        }
+                        this.updatePosition(entity)
+                        this.maintanceQueue.delete(entity.id)
+                }
+                this.removeDestroyedEntities()
+                this.copyMaintanceQueue()
+        }
 
-  private isAlreadyCreated(id: number){
-    return this.renderDictionary[id]
-  }
+        private isAlreadyCreated(id: number) {
+                return this.renderDictionary[id]
+        }
 
-  private updatePosition(entityDTO: SimpleEntity){
-    let interpolated = new Vec2()
-    v.mixN2(interpolated, [this.renderDictionary[entityDTO.id].sprite.x, this.renderDictionary[entityDTO.id].sprite.y], [entityDTO.position.x, entityDTO.position.y], 0.4)
-    this.renderDictionary[entityDTO.id].sprite.x = interpolated.x
-    this.renderDictionary[entityDTO.id].sprite.y = interpolated.y
-  }
+        private updatePosition(entityDTO: SimpleEntity) {
+                let interpolated = new Vec2()
+                v.mixN2(
+                        interpolated,
+                        [
+                                this.renderDictionary[entityDTO.id].sprite.x,
+                                this.renderDictionary[entityDTO.id].sprite.y
+                        ],
+                        [entityDTO.position.x, entityDTO.position.y],
+                        0.4
+                )
+                this.renderDictionary[entityDTO.id].sprite.x = interpolated.x
+                this.renderDictionary[entityDTO.id].sprite.y = interpolated.y
+        }
 
-  private removeDestroyedEntities(){
-    this.maintanceQueue.forEach(id => {
-      this.gameCamera.viewport.removeChild(this.renderDictionary[Number(id)].sprite)
-      delete this.renderDictionary[Number(id)]
-    });
-  }
+        private removeDestroyedEntities() {
+                this.maintanceQueue.forEach((id) => {
+                        this.gameCamera.viewport.removeChild(
+                                this.renderDictionary[Number(id)].sprite
+                        )
+                        delete this.renderDictionary[Number(id)]
+                })
+        }
 
-  private copyMaintanceQueue(){
-    this.maintanceQueue.clear()
-    for (const key in this.renderDictionary) {
-      this.maintanceQueue.add(Number(key))
-    }
-  }
+        private copyMaintanceQueue() {
+                this.maintanceQueue.clear()
+                for (const key in this.renderDictionary) {
+                        this.maintanceQueue.add(Number(key))
+                }
+        }
 
-  private addEntityToViewport(entity: SimpleEntity){
-    const sprite = entity.sprite
-    sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
-    this.gameCamera.viewport.addChild(sprite)
-    this.renderDictionary[entity.id] = entity
-  }
+        private addEntityToViewport(entity: SimpleEntity) {
+                const sprite = entity.sprite
+                sprite.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
+                this.gameCamera.viewport.addChild(sprite)
+                this.renderDictionary[entity.id] = entity
+        }
 
-  private renderMap(){
-    try{
-      let map = PIXI.Sprite.from('https://firebasestorage.googleapis.com/v0/b/project-zefir.appspot.com/o/zefir.png?alt=media')
-      map.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
-      this.gameCamera.viewport.addChild(map)
-    }
-    catch{
-      console.log("image failed to load")
-    }
-  }
+        private renderMap() {
+                try {
+                        let map = PIXI.Sprite.from(
+                                'https://firebasestorage.googleapis.com/v0/b/project-zefir.appspot.com/o/zefir.png?alt=media'
+                        )
+                        map.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
+                        this.gameCamera.viewport.addChild(map)
+                } catch {
+                        console.log('image failed to load')
+                }
+        }
 }

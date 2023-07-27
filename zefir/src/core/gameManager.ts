@@ -1,6 +1,3 @@
+import { NetworkSystemComponent } from './gameNetwork'
 
-import { NetworkSystemComponent } from "./gameNetwork"
-
-class GameManager{
-
-}
+class GameManager {}
