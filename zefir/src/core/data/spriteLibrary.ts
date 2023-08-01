@@ -15,6 +15,7 @@ export class SpriteLibrary{
     async initTextures(){
         await this.loadPlayer()
     }
+                await this.loadSlime()
 
     private async loadPlayer(){
         const fileName = 'player.png'
@@ -40,4 +41,20 @@ export class SpriteLibrary{
     public getSheet(name: string){
         return this.textureCollection[name]
     }
-}
+}                const fileName = 'slime.png'
+                this.spritesheetBuilder.setMetaData(fileName, { w: 32, h: 32 })
+                this.spritesheetBuilder.addRow('idle', { x: 0, y: 0 }, 4)
+                this.spritesheetBuilder.addRow('runDown', { x: 0, y: 32 }, 6)
+                this.spritesheetBuilder.addRow('runRight', { x: 0, y: 32 }, 6)
+                this.spritesheetBuilder.addRow('runLeft', { x: 0, y: 32 }, 6, true)
+                this.spritesheetBuilder.addRow('runUp', { x: 0, y: 32 }, 6)
+                this.spritesheetBuilder.addRow('meleeDown', { x: 0, y: 96 }, 3)
+                this.spritesheetBuilder.addRow('meleeRight', { x: 0, y: 96 }, 3)
+                this.spritesheetBuilder.addRow('meleeLeft', { x: 0, y: 96 }, 3, true)
+                this.spritesheetBuilder.addRow('meleeUp', { x: 0, y: 96 }, 3)
+                this.spritesheetBuilder.addRow('knockout', { x: 0, y: 128 }, 5)
+                const assembledTextures = await this.spritesheetBuilder.build()
+                this.textureCollection[fileName] = assembledTextures
+                this.spritesheetBuilder.clear()
+        }
+
