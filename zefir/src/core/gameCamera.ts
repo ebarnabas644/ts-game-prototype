@@ -31,6 +31,13 @@ export class GameCamera {
         }
 
         public convertLocalPositionToGlobal(position: Vec2) {
+                const convertedPosition = new Vec2([0, 0])
+                const cameraPosition = v.abs2(null, new Vec2([this.viewport.x, this.viewport.y]))
+                v.add(convertedPosition, position, cameraPosition)
+                return convertedPosition
+        }
+
+        private setCameraPlugins() {
                 this.viewport
                         .wheel()
                         .decelerate({
