@@ -13,7 +13,7 @@ export let rendererSystemComponent: RendererSystemComponent
 export let inputSystemComponent: InputSystemComponent
 export let gameState: GameState
 export let spriteLibrary: SpriteLibrary
-let gameCamera: GameCamera
+export let gameCamera: GameCamera
 
 let counter = 0
 export async function initGame() {
@@ -55,7 +55,6 @@ export async function initGame() {
                                 counter++
                                 console.log('camera set')
                         }
-                        //console.log(gameCamera.viewport)
                 })
                 store.isLoading = false
         })
