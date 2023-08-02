@@ -1,58 +1,59 @@
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
 import type { SimpleEntity } from './entity/simpleEntity'
+import { Vec2 } from '@thi.ng/vectors/vec2'
+import * as v from '@thi.ng/vectors'
 
-export class GameCamera{
-    public viewport: Viewport
-    constructor(pixiApp: PIXI.Application){
-        this.viewport = new Viewport({
-            screenHeight: pixiApp.screen.height,
-            screenWidth: pixiApp.screen.width,
-            worldHeight: 5000,
-            worldWidth: 5000,
-        
-            events: pixiApp.renderer.events
-        })
-        pixiApp.stage.addChild(this.viewport)
+export class GameCamera {
+        public viewport: Viewport
+        constructor(pixiApp: PIXI.Application) {
+                this.viewport = new Viewport({
+                        screenHeight: pixiApp.screen.height,
+                        screenWidth: pixiApp.screen.width,
+                        worldHeight: 5000,
+                        worldWidth: 5000,
 
-        this.setCameraPlugins()
-        this.compensateForDevicePixelRatio()
-        window.addEventListener("resize", this.resizeViewport)
-    }
+                        events: pixiApp.renderer.events
+                })
+                pixiApp.stage.addChild(this.viewport)
 
-    public setFollow(entity: SimpleEntity){
-        this.viewport.follow(entity.sprite, {
-            speed: 4,
-            acceleration: 0.1,
-            
-        })
-        //test
-    }
+                this.setCameraPlugins()
+                this.compensateForDevicePixelRatio()
+                window.addEventListener('resize', this.resizeViewport)
+        }
 
-    private setCameraPlugins(){
-        this.viewport
-        .wheel()
-        .decelerate({
-            minSpeed: 0.01
-        })
-        .clamp({
-            direction: 'all',
-            underflow: 'center'
-        })
-        .clampZoom({
-            minScale: 1,
-            maxScale: 3
-        })
-        .pinch()
-    }
+        public setFollow(entity: SimpleEntity) {
+                this.viewport.follow(entity.sprite, {
+                        speed: 4,
+                        acceleration: 0.1
+                })
+                //test
+        }
 
-    private compensateForDevicePixelRatio(){
-        this.viewport.zoom(1/window.devicePixelRatio)
-    }
+        public convertLocalPositionToGlobal(position: Vec2) {
+                this.viewport
+                        .wheel()
+                        .decelerate({
+                                minSpeed: 0.01
+                        })
+                        .clamp({
+                                direction: 'all',
+                                underflow: 'center'
+                        })
+                        .clampZoom({
+                                minScale: 1,
+                                maxScale: 3
+                        })
+                        .pinch()
+        }
 
-    private resizeViewport(){
-        console.log(this.viewport)
-        this.viewport.screenHeight = window.innerHeight
-        this.viewport.screenWidth = window.innerWidth
-    }
+        private compensateForDevicePixelRatio() {
+                this.viewport.zoom(1 / window.devicePixelRatio)
+        }
+
+        private resizeViewport() {
+                console.log(this.viewport)
+                this.viewport.screenHeight = window.innerHeight
+                this.viewport.screenWidth = window.innerWidth
+        }
 }
