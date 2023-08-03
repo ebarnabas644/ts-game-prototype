@@ -16,6 +16,7 @@ export class SimpleEntity {
         tags: { [key: string]: any }
         spriteSheet: { [key: string]: Sheet }
         flipped: boolean
+        stateLocked: boolean
 
         constructor(
                 id: number,
@@ -43,6 +44,7 @@ export class SimpleEntity {
                 this.sprite.x = position.x
                 this.sprite.y = position.y
                 this.tags = tags
+                this.stateLocked = false
                 this.flipped = false
         }
 
@@ -51,18 +53,27 @@ export class SimpleEntity {
         }
 
         setState(newState: string) {
-                if (this.state != newState) {
-                        this.state = newState
-                        this.sprite.stop()
-                        if (this.spriteSheet[this.state].options.horizontalInvert) {
-                                this.sprite.scale.x *= -1
-                                this.flipped = true
-                        } else if (this.flipped) {
-                                this.sprite.scale.x = Math.abs(this.sprite.scale.x)
-                                this.flipped = false
+                if (this.stateLocked) {
+                        if (this.sprite.currentFrame == this.sprite.totalFrames - 1) {
+                                this.stateLocked = false
                         }
-                        this.sprite.textures = this.spriteSheet[this.state].textures
-                        this.sprite.gotoAndPlay(0)
+                } else {
+                        if (this.state != newState) {
+                                this.state = newState
+                                this.sprite.stop()
+                                if (this.state == 'meleeRight') {
+                                        this.stateLocked = true
+                                }
+                                if (this.spriteSheet[this.state].options.horizontalInvert) {
+                                        this.sprite.scale.x *= -1
+                                        this.flipped = true
+                                } else if (this.flipped) {
+                                        this.sprite.scale.x = Math.abs(this.sprite.scale.x)
+                                        this.flipped = false
+                                }
+                                this.sprite.textures = this.spriteSheet[this.state].textures
+                                this.sprite.gotoAndPlay(0)
+                        }
                 }
         }
 }
