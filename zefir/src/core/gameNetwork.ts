@@ -51,7 +51,7 @@ export class NetworkSystemComponent {
 
         private registerPlayerCommandEvents() {
                 document.addEventListener('playerInput', (event: any) => {
-                        const commands: string[] = []
+                        const commands: InputEvent[] = []
                         event.detail.forEach((command: any) => {
                                 commands.push(command)
                         })
