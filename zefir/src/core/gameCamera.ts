@@ -3,19 +3,21 @@ import { Viewport } from 'pixi-viewport'
 import type { SimpleEntity } from './entity/simpleEntity'
 import { Vec2 } from '@thi.ng/vectors/vec2'
 import * as v from '@thi.ng/vectors'
+import type { RendererSystemComponent } from './gameRenderer'
 
 export class GameCamera {
         public viewport: Viewport
-        constructor(pixiApp: PIXI.Application) {
+        constructor(renderer: RendererSystemComponent) {
                 this.viewport = new Viewport({
-                        screenHeight: pixiApp.screen.height,
-                        screenWidth: pixiApp.screen.width,
+                        screenHeight: renderer.pixiApp.screen.height,
+                        screenWidth: renderer.pixiApp.screen.width,
                         worldHeight: 5000,
                         worldWidth: 5000,
 
-                        events: pixiApp.renderer.events
+                        events: renderer.pixiApp.renderer.events
                 })
-                pixiApp.stage.addChild(this.viewport)
+
+                renderer.pixiApp.stage.addChild(this.viewport)
 
                 this.setCameraPlugins()
                 this.compensateForDevicePixelRatio()
