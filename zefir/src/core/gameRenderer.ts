@@ -61,7 +61,7 @@ export class RendererSystemComponent {
                                 this.renderDictionary[entityDTO.id].sprite.y
                         ],
                         [entityDTO.position.x, entityDTO.position.y],
-                        0.4
+                        0.2
                 )
                 this.renderDictionary[entityDTO.id].sprite.x = interpolated.x
                 this.renderDictionary[entityDTO.id].sprite.y = interpolated.y
