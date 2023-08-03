@@ -1,9 +1,7 @@
 import { NetworkSystemComponent } from './gameNetwork'
 import { RendererSystemComponent } from './gameRenderer'
-import * as PIXI from 'pixi.js'
 import { store } from './gameState'
 import { InputSystemComponent } from './gameInput'
-import { GameCamera } from './gameCamera'
 import { GameState } from './gameState'
 import { SpriteLibrary } from './data/spriteLibrary'
 import { SpritesheetBuilder } from './utilities/spriteSheetBuilder'
@@ -13,7 +11,6 @@ export let rendererSystemComponent: RendererSystemComponent
 export let inputSystemComponent: InputSystemComponent
 export let gameState: GameState
 export let spriteLibrary: SpriteLibrary
-export let gameCamera: GameCamera
 
 let counter = 0
 export async function initGame() {
@@ -24,6 +21,7 @@ export async function initGame() {
         document.addEventListener('playerReceived', (event) => {
                 gameState = new GameState()
                 inputSystemComponent = new InputSystemComponent()
+                rendererSystemComponent = new RendererSystemComponent()
                 rendererSystemComponent.Start(gameState)
                 document.addEventListener('stateReceived', (event: any) => {
                         gameState.updateGameState(event.detail)
@@ -36,7 +34,7 @@ export async function initGame() {
                                 )
                                 if (findControlled) {
                                         //gameCamera.setFollow(findControlled)
-                                        gameCamera.viewport
+                                        rendererSystemComponent.gameCamera.viewport
                                                 .wheel()
                                                 .decelerate({
                                                         minSpeed: 0.01
@@ -58,9 +56,4 @@ export async function initGame() {
                 })
                 store.isLoading = false
         })
-}
-
-export function setRenderer(pixiApp: PIXI.Application) {
-        gameCamera = new GameCamera(pixiApp)
-        rendererSystemComponent = new RendererSystemComponent(pixiApp, gameCamera)
 }
