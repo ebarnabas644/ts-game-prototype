@@ -1,7 +1,5 @@
 import * as PIXI from 'pixi.js'
-import { type Player } from './models/player'
-import type { EntityDTODictionary, EntityDTO } from './entity/entityDTO'
-import type { GameCamera } from './gameCamera'
+import { GameCamera } from './gameCamera'
 import type { SimpleEntity, SimpleEntityDictionary } from './entity/simpleEntity'
 import type { GameState } from './gameState'
 import * as v from '@thi.ng/vectors'
@@ -11,12 +9,21 @@ type RenderDictionary = { [key: number]: SimpleEntity }
 
 export class RendererSystemComponent {
         public pixiApp: PIXI.Application
-        private gameCamera: GameCamera
+        public gameCamera: GameCamera
         public renderDictionary: RenderDictionary
         private maintanceQueue: Set<number>
-        constructor(pixi: PIXI.Application, gameCamera: GameCamera) {
-                this.pixiApp = pixi
-                this.gameCamera = gameCamera
+        constructor() {
+                this.pixiApp = new PIXI.Application({
+                        width: window.innerWidth,
+                        height: window.innerHeight,
+                        backgroundColor: 0x5c812f
+                })
+                const canvasLocation = document.getElementById('pixiContainer')
+                if (canvasLocation) {
+                        canvasLocation.appendChild(this.pixiApp.view)
+                }
+                //globalThis.__PIXI_APP__ = this.pixiApp //for debugging pixi app with browser extension
+                this.gameCamera = new GameCamera(this)
                 this.renderDictionary = {}
                 this.maintanceQueue = new Set()
                 this.renderMap()
