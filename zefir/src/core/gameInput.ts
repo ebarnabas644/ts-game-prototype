@@ -1,5 +1,5 @@
+import { rendererSystemComponent } from './gameMain'
 import { emitCustomEvent } from './utilities/customEventEmitter'
-import { gameCamera } from './gameMain'
 import { Vec2 } from '@thi.ng/vectors'
 
 export type InputEvent = {
@@ -100,7 +100,10 @@ export class InputSystemComponent {
         private handleMousePress(event: any) {
                 this.throttleCounter = -1
                 const cursorPosition = new Vec2([event.clientX, event.clientY])
-                const globalCursorPosition = gameCamera.convertLocalPositionToGlobal(cursorPosition)
+                const globalCursorPosition =
+                        rendererSystemComponent.gameCamera.convertLocalPositionToGlobal(
+                                cursorPosition
+                        )
                 const inputEvent: InputEvent = {
                         input: 'attack',
                         data: {
@@ -123,7 +126,10 @@ export class InputSystemComponent {
                 this.throttleCounter++
                 if (this.throttleCounter % this.throttleValue != 0) return
                 const cursorPosition = new Vec2([event.clientX, event.clientY])
-                const globalCursorPosition = gameCamera.convertLocalPositionToGlobal(cursorPosition)
+                const globalCursorPosition =
+                        rendererSystemComponent.gameCamera.convertLocalPositionToGlobal(
+                                cursorPosition
+                        )
                 const inputEvent: InputEvent = {
                         input: 'attack',
                         data: {
