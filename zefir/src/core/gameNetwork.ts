@@ -6,7 +6,7 @@ export class NetworkSystemComponent {
         private socket: Socket
 
         constructor() {
-                this.socket = io('https://zefir.server.iedre.dev', {
+                this.socket = io('https://server.zefir.iedre.net', {
                         transports: ['websocket'],
                         upgrade: false
                 })
