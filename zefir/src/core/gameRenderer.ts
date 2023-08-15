@@ -8,12 +8,12 @@ import { Vec2 } from '@thi.ng/vectors'
 type RenderDictionary = { [key: number]: SimpleEntity }
 
 export class RendererSystemComponent {
-        public pixiApp: PIXI.Application
+        public pixiApp: PIXI.Application<HTMLCanvasElement>
         public gameCamera: GameCamera
         public renderDictionary: RenderDictionary
         private maintanceQueue: Set<number>
         constructor() {
-                this.pixiApp = new PIXI.Application({
+                this.pixiApp = new PIXI.Application<HTMLCanvasElement>({
                         width: window.innerWidth,
                         height: window.innerHeight,
                         backgroundColor: 0x5c812f
@@ -56,10 +56,7 @@ export class RendererSystemComponent {
                 let interpolated = new Vec2()
                 v.mixN2(
                         interpolated,
-                        [
-                                this.renderDictionary[entityDTO.id].sprite.x,
-                                this.renderDictionary[entityDTO.id].sprite.y
-                        ],
+                        [this.renderDictionary[entityDTO.id].sprite.x, this.renderDictionary[entityDTO.id].sprite.y],
                         [entityDTO.position.x, entityDTO.position.y],
                         0.2
                 )
@@ -69,9 +66,7 @@ export class RendererSystemComponent {
 
         private removeDestroyedEntities() {
                 this.maintanceQueue.forEach((id) => {
-                        this.gameCamera.viewport.removeChild(
-                                this.renderDictionary[Number(id)].sprite
-                        )
+                        this.gameCamera.viewport.removeChild(this.renderDictionary[Number(id)].sprite)
                         delete this.renderDictionary[Number(id)]
                 })
         }
